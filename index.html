@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Yasin per Ayat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            direction: rtl;
+            background-color: rgba(245, 238, 238, 0);
+        }
+        /* Video Background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            
+        }
+        /* Kontainer konten */
+        .content {
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.0);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #ayat {
+            font-size: 2.8em;
+            padding: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+        #terjemahan {
+            font-size: 1.2em;
+            color: #faeded;
+            margin-top: 10px;
+        }
+        .btn-skip {
+            margin-top: 50px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #0b81a5e8;
+            border: none;
+            border-radius: 13px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Video background -->
+<video class="video-bg" autoplay muted loop>
+    <source src="Developer Coding Background.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Konten -->
+<div class="content">
+    <h1>سورة يس</h1>
+    <div id="ayat" onclick="nextAyat()">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+    <div id="terjemahan">Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.</div>
+    <button class="btn-skip" onclick="nextAyat()">Ayat Berikutnya</button>
+</div>
+
+<script>
+    const ayatList = [
+        { 
+            arab: "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ", 
+            indo: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang." 
+        },
+        { 
+            arab: "يسٓ", 
+            indo: "Yasin." 
+        },
+        { 
+            arab: "وَٱلْقُرْءَانِ ٱلْحَكِيمِ", 
+            indo: "Demi Al-Qur'an yang penuh hikmah." 
+        },
+        { 
+            arab: "إِنَّكَ لَمِنَ ٱلْمُرْسَلِينَ", 
+            indo: "Sungguh, engkau (Muhammad) adalah salah seorang dari rasul-rasul," 
+        },
+        { 
+            arab: "عَلَىٰ صِرَٰطٍۢ مُّسْتَقِيمٍۢ", 
+            indo: "yang (berada) di atas jalan yang lurus," 
+        },
+        { 
+            arab: "تَنزِيلَ ٱلْعَزِيزِ ٱلرَّحِيمِ", 
+            indo: "sebagai wahyu yang diturunkan oleh (Allah) Yang Maha Perkasa, Maha Penyayang," 
+        },
+        { 
+            arab: "لِتُنذِرَ قَوْمًۭا مَّآ أُنذِرَ ءَابَآؤُهُمْ فَهُمْ غَـٰفِلُونَ", 
+            indo: "agar engkau memberi peringatan kepada suatu kaum yang nenek moyangnya belum pernah diberi peringatan, karena itu mereka lalai." 
+        },
+        { arab: "لَقَدْ حَقَّ ٱلْقَوْلُ عَلَىٰٓ أَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُونَ", indo: "Sungguh, pasti berlaku perkataan (hukuman) terhadap kebanyakan mereka, karena mereka tidak beriman." 
+        },
+        { arab: "إِنَّا جَعَلْنَا فِىٓ أَعْنَـٰقِهِمْ أَغْلَـٰلًۭا فَهِىَ إِلَى ٱلْأَذْقَانِ فَهُمْ مُّقْمَحُونَ", indo: "Sungguh, Kami telah memasang belenggu di leher mereka, lalu tangan mereka (diangkat) ke dagu, maka karena itu mereka tertengadah." 
+        },
+        { arab: "وَجَعَلْنَا مِنۢ بَيْنِ أَيْدِيهِمْ سَدًّۭا وَمِنْ خَلْفِهِمْ سَدًّۭا فَأَغْشَيْنَـٰهُمْ فَهُمْ لَا يُبْصِرُونَ", indo: "Dan Kami adakan di hadapan mereka dinding dan di belakang mereka dinding (pula), dan Kami tutup (mata) mereka sehingga mereka tidak dapat melihat." 
+        },
+        { arab: "وَسَوَآءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ", indo: "Sama saja bagi mereka, apakah engkau memberi peringatan kepada mereka atau tidak memberi peringatan, mereka tidak akan beriman." 
+        },
+        { arab: "إِنَّمَا تُنذِرُ مَنِ ٱتَّبَعَ ٱلذِّكْرَ وَخَشِىَ ٱلرَّحْمَـٰنَ بِٱلْغَيْبِۖ فَبَشِّرْهُ بِمَغْفِرَةٍۢ وَأَجْرٍۢ كَرِيمٍ", indo: "Sesungguhnya, engkau hanya dapat memberi peringatan kepada orang yang mau mengikuti peringatan dan yang takut kepada Tuhan Yang Maha Pengasih walaupun dia tidak melihat-Nya. Maka beri kabar gembira kepadanya dengan ampunan dan pahala yang mulia." 
+        },
+        { arab: "إِنَّا نَحْنُ نُحْىِ ٱلْمَوْتَىٰ وَنَكْتُبُ مَا قَدَّمُوا۟ وَءَاثَـٰرَهُمْۚ وَكُلَّ شَىْءٍ أَحْصَيْنَـٰهُ فِىٓ إِمَامٍۢ مُّبِينٍۢ", indo: "Sungguh, Kamilah yang menghidupkan orang mati dan mencatat apa yang telah mereka kerjakan dan bekas-bekas yang mereka tinggalkan. Dan segala sesuatu Kami kumpulkan dalam Kitab yang jelas (Lauh Mahfuzh)." },
+        { arab: "وَٱضْرِبْ لَهُم مَّثَلًا أَصْحَـٰبَ ٱلْقَرْيَةِ إِذْ جَآءَهَا ٱلْمُرْسَلُونَ", indo: "Berikanlah kepada mereka perumpamaan tentang penduduk suatu negeri, ketika datangnya para rasul kepada mereka, wahai Nabi." },
+        { arab: "إِذْ أَرْسَلْنَآ إِلَيْهِمُ ٱثْنَيْنِ فَكَذَّبُوهُمَا فَعَزَّزْنَا بِثَالِثٍۢ فَقَالُوٓا۟ إِنَّآ إِلَيْكُم مُّرْسَلُونَ", indo: "Ketika Kami mengutus kepada mereka dua orang utusan, lalu mereka mendustakan keduanya; kemudian Kami kuatkan dengan (utusan) yang ketiga, maka ketiga utusan itu berkata, 'Sungguh, kami adalah orang-orang yang diutus kepadamu.'" },
+    { arab: "قَالُوا۟ مَآ أَنتُمْ إِلَّا بَشَرٌۭ مِّثْلُنَا وَمَآ أَنزَلَ ٱلرَّحْمَـٰنُ مِن شَىْءٍ إِنْ أَنتُمْ إِلَّا تَكْذِبُونَ", indo: "Mereka (penduduk negeri) berkata, 'Kamu hanyalah manusia seperti kami dan (Allah) Yang Maha Pengasih tidak menurunkan sesuatu apa pun. Kamu hanyalah pendusta belaka.'" },
+    { arab: "قَالُوا۟ رَبُّنَا يَعْلَمُ إِنَّآ إِلَيْكُمْ لَمُرْسَلُونَ", indo: "Mereka berkata, 'Tuhan kami mengetahui bahwa kami benar-benar diutus kepada kamu.'" },
+    { arab: "وَمَا عَلَيْنَآ إِلَّا ٱلْبَلَـٰغُ ٱلْمُبِينُ", indo: "Dan kewajiban kami hanyalah menyampaikan (perintah Allah) dengan jelas.'" },
+    { arab: "قَالُوٓا۟ إِنَّا تَطَيَّرْنَا بِكُمْۖ لَئِن لَّمْ تَنتَهُوا۟ لَنَرْجُمَنَّكُمْ وَلَيَمَسَّنَّكُم مِّنَّا عَذَابٌ أَلِيمٌۭ", indo: "Mereka menjawab, 'Sungguh, kami bernasib malang karena kamu. Jika kamu tidak berhenti (menyeru kami), niscaya kami akan merajam kamu dan kamu pasti akan merasakan siksaan yang pedih dari kami.'" },
+    { arab: "قَالُوا۟ طَـٰٓئِرُكُمْ مَّعَكُمْۖ أَئِن ذُكِّرْتُمۚ بَلْ أَنتُمْ قَوْمٌۭ مُّسْرِفُونَ", indo: "Mereka (para utusan) berkata, 'Kemalangan kamu itu adalah karena kamu sendiri. Apakah karena kamu diberi peringatan? Sebenarnya kamu adalah kaum yang melampaui batas.'" },
+    { arab: "وَجَآءَ مِنْ أَقْصَا ٱلْمَدِينَةِ رَجُلٌۭ يَسْعَىٰ قَالَ يَـٰقَوْمِ ٱتَّبِعُوا۟ ٱلْمُرْسَلِينَ", indo: "Dan datanglah dari ujung kota, seorang laki-laki dengan bergegas, dia berkata, 'Wahai kaumku! Ikutilah para utusan itu,'" },
+    { arab: "ٱتَّبِعُوا۟ مَن لَّا يَسْـَٔلُكُمْ أَجْرًۭا وَهُم مُّهْتَدُونَ", indo: "Ikutilah orang yang tidak meminta imbalan kepadamu; dan mereka adalah orang-orang yang mendapat petunjuk." },
+    { arab: "وَمَا لِىَ لَآ أَعْبُدُ ٱلَّذِى فَطَرَنِى وَإِلَيْهِ تُرْجَعُونَ", indo: "Mengapa aku tidak menyembah (Allah) yang telah menciptakanku dan hanya kepada-Nya-lah kamu (semua) akan dikembalikan?" },
+    { arab: "ءَأَتَّخِذُ مِن دُونِهِۦٓ ءَالِهَةً إِن يُرِدْنِ ٱلرَّحْمَـٰنُ بِضُرٍّۢ لَّا تُغْنِ عَنِّى شَفَـٰعَتُهُمْ شَيْـًۭٔا وَلَا يُنقِذُونِ", indo: "Mengapa aku akan mengambil tuhan-tuhan selain-Nya, jika (Allah) Yang Maha Pengasih menghendaki kemudharatan terhadapku, niscaya syafaat mereka tidak memberi manfaat sedikit pun bagi diriku dan mereka tidak (pula) dapat menyelamatkanku?" },
+    { arab: "إِنِّىٓ إِذًۭا لَّفِى ضَلَـٰلٍۢ مُّبِينٍ", indo: "Sesungguhnya aku (jika melakukan itu), tentu berada dalam kesesatan yang nyata." },
+    { arab: "إِنِّىٓ ءَامَنتُ بِرَبِّكُمْ فَٱسْمَعُونِ", indo: "(Tetapi) aku telah beriman kepada Tuhanmu; maka dengarkanlah (pengakuan keimanan)ku." },
+    { arab: "قِيلَ ٱدْخُلِ ٱلْجَنَّةَۖ قَالَ يَـٰلَيْتَ قَوْمِى يَعْلَمُونَ", indo: "Dikatakan (kepadanya), 'Masuklah ke surga.' Dia berkata, 'Alangkah baiknya sekiranya kaumku mengetahui'" },
+    { arab: "بِمَا غَفَرَ لِى رَبِّى وَجَعَلَنِى مِنَ ٱلْمُكْرَمِينَ", indo: "apa yang menyebabkan Tuhanku memberi ampun kepadaku dan menjadikan aku termasuk orang-orang yang dimuliakan." },
+    { arab: "وَمَآ أَنزَلْنَا عَلَىٰ قَوْمِهِۦ مِنۢ بَعْدِهِۦ مِن جُندٍۢ مِّنَ ٱلسَّمَآءِ وَمَا كُنَّا مُنزِلِينَ", indo: "Dan Kami tidak menurunkan kepada kaumnya setelah dia (meninggal) suatu pasukan pun dari langit, dan tidak layak Kami menurunkannya." },
+    { arab: "إِن كَانَتْ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ فَإِذَا هُمْ خَـٰمِدُونَ", indo: "Tidak ada siksaan terhadap mereka melainkan satu teriakan suara saja; maka seketika itu mereka mati." },
+    { arab: "يَـٰحَسْرَةً عَلَى ٱلْعِبَادِۚ مَا يَأْتِيهِم مِّن رَّسُولٍ إِلَّا كَانُوا۟ بِهِۦ يَسْتَهْزِءُونَ", indo: "Alangkah besarnya penyesalan terhadap hamba-hamba itu! Tidak datang seorang rasul pun kepada mereka melainkan mereka selalu memperolok-olokkannya." },
+    { arab: "أَلَمْ يَرَوْا۟ كَمْ أَهْلَكْنَا قَبْلَهُم مِّنَ ٱلْقُرُونِ أَنَّهُمْ إِلَيْهِمْ لَا يَرْجِعُونَ", indo: "Tidakkah mereka mengetahui berapa banyak umat sebelum mereka yang telah Kami binasakan, bahwa orang-orang (yang telah Kami binasakan) itu tidak akan kembali kepada mereka?" },
+    { arab: "وَإِن كُلٌّۭ لَّمَّا جَمِيعٌۭ لَّدَيْنَا مُحْضَرُونَ", indo: "Dan setiap mereka semuanya akan dihadapkan kepada Kami." },
+    { arab: "وَءَايَةٌۭ لَّهُمُ ٱلْأَرْضُ ٱلْمَيْتَةُ أَحْيَيْنَـٰهَا وَأَخْرَجْنَا مِنْهَا حَبًّۭا فَمِنْهُ يَأْكُلُونَ", indo: "Dan suatu tanda (kebesaran Allah) bagi mereka adalah bumi yang mati. Kami hidupkan bumi itu dan Kami keluarkan dari padanya biji-bijian, maka darinya mereka makan." },
+    { arab: "وَجَعَلْنَا فِيهَا جَنَّـٰتٍۢ مِّن نَّخِيلٍۢ وَأَعْنَـٰبٍۢ وَفَجَّرْنَا فِيهَا مِنَ ٱلْعُيُونِ", indo: "Dan Kami jadikan padanya kebun-kebun kurma dan anggur dan Kami pancarkan padanya beberapa mata air," },
+    { arab: "لِيَأْكُلُوا۟ مِن ثَمَرِهِۦ وَمَا عَمِلَتْهُ أَيْدِيهِمْۖ أَفَلَا يَشْكُرُونَ", indo: "agar mereka dapat makan dari buahnya, dan dari hasil usaha tangan mereka. Maka mengapa mereka tidak bersyukur?" },
+    { arab: "سُبْحَـٰنَ ٱلَّذِى خَلَقَ ٱلْأَزْوَٰجَ كُلَّهَا مِمَّا تُنبِتُ ٱلْأَرْضُ وَمِنْ أَنفُسِهِمْ وَمِمَّا لَا يَعْلَمُونَ", indo: "Mahasuci (Allah) yang telah menciptakan semuanya berpasang-pasangan, baik dari apa yang ditumbuhkan oleh bumi dan dari diri mereka maupun dari apa yang tidak mereka ketahui." },
+    { arab: "وَءَايَةٌۭ لَّهُمُ ٱلَّيْلُ نَسْلَخُ مِنْهُ ٱلنَّهَارَ فَإِذَا هُم مُّظْلِمُونَ", indo: "Dan suatu tanda (kebesaran Allah) bagi mereka adalah malam; Kami tanggalkan siang dari malam itu, maka seketika itu mereka berada dalam kegelapan." },
+    { arab: "وَٱلشَّمْسُ تَجْرِى لِمُسْتَقَرٍّۢ لَّهَاۚ ذَٰلِكَ تَقْدِيرُ ٱلْعَزِيزِ ٱلْعَلِيمِ", indo: "Dan matahari berjalan di tempat peredarannya. Demikianlah ketetapan (Allah) Yang Mahaperkasa, Maha Mengetahui." },
+    { arab: "وَٱلْقَمَرَ قَدَّرْنَـٰهُ مَنَازِلَ حَتَّىٰ عَادَ كَٱلْعُرْجُونِ ٱلْقَدِيمِ", indo: "Dan telah Kami tetapkan bagi bulan manzilah-manzilah, sehingga (setelah dia sampai ke manzilah yang terakhir) kembalilah dia seperti bentuk tandan yang tua." },
+    { arab: "لَا ٱلشَّمْسُ يَنبَغِى لَهَآ أَن تُدْرِكَ ٱلْقَمَرَ وَلَا ٱلَّيْلُ سَابِقُ ٱلنَّهَارِۚ وَكُلٌّۭ فِى فَلَكٍۢ يَسْبَحُونَ", indo: "Tidaklah mungkin bagi matahari mengejar bulan dan malam pun tidak dapat mendahului siang. Dan masing-masing beredar pada garis edarnya." },
+    { arab: "وَءَايَةٌۭ لَّهُمْ أَنَّا حَمَلْنَا ذُرِّيَّتَهُمْ فِى ٱلْفُلْكِ ٱلْمَشْحُونِ", indo: "Dan suatu tanda (kebesaran Allah) bagi mereka adalah bahwa Kami angkut keturunan mereka dalam kapal yang penuh muatan," },
+    { arab: "وَخَلَقْنَا لَهُم مِّن مِّثْلِهِۦ مَا يَرْكَبُونَ", indo: "dan Kami ciptakan untuk mereka (angkutan lain) seperti itu, yang dapat mereka kendarai." },
+    { arab: "وَإِن نَّشَأْ نُغْرِقْهُمْ فَلَا صَرِيخَ لَهُمْ وَلَا هُمْ يُنقَذُونَ", indo: "Dan jika Kami menghendaki, Kami tenggelamkan mereka, maka tidak ada penolong bagi mereka dan mereka tidak (pula) dapat diselamatkan," },
+    { arab: "إِلَّا رَحْمَةًۭ مِّنَّا وَمَتَـٰعًا إِلَىٰ حِينٍۢ", indo: "tetapi (Kami selamatkan mereka) karena rahmat yang besar dari Kami dan untuk memberikan kesenangan hidup sampai waktu tertentu." },
+    { arab: "وَإِذَا قِيلَ لَهُمُ ٱتَّقُوا۟ مَا بَيْنَ أَيْدِيكُمْ وَمَا خَلْفَكُمْ لَعَلَّكُمْ تُرْحَمُونَ", indo: "Dan apabila dikatakan kepada mereka, 'Takutlah kamu akan siksa yang di hadapanmu dan siksa yang akan datang agar kamu mendapat rahmat,' (niscaya mereka berpaling)." },
+    { arab: "وَمَا تَأْتِيهِم مِّنْ ءَايَةٍۢ مِّنْ ءَايَـٰتِ رَبِّهِمْ إِلَّا كَانُوا۟ عَنْهَا مُعْرِضِينَ", indo: "Dan tidak ada satu ayat dari ayat-ayat Tuhan mereka yang sampai kepada mereka, melainkan mereka selalu berpaling daripadanya." },
+    { arab: "وَإِذَا قِيلَ لَهُمْ أَنفِقُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ قَالَ ٱلَّذِينَ كَفَرُوا۟ لِلَّذِينَ ءَامَنُوٓا۟ أَنُطْعِمُ مَن لَّوْ يَشَآءُ ٱللَّهُ أَطْعَمَهُۥٓ إِنْ أَنتُمْ إِلَّا فِى ضَلَـٰلٍۢ مُّبِينٍۢ", indo: "Dan apabila dikatakan kepada mereka, 'Infakkanlah sebagian dari rezeki yang diberikan Allah kepadamu,' maka orang-orang yang kafir itu berkata kepada orang-orang yang beriman, 'Apakah kami akan memberi makan kepada orang yang jika Allah menghendaki (tentu) Dia akan memberinya makan? Kamu benar-benar dalam kesesatan yang nyata.'" },
+    { arab: "وَيَقُولُونَ مَتَىٰ هَـٰذَا ٱلْوَعْدُ إِن كُنتُمْ صَـٰدِقِينَ", indo: "Dan mereka berkata, 'Kapankah janji itu (akan datang) jika kamu adalah orang-orang yang benar?'" },
+    { arab: "مَا يَنظُرُونَ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ تَأْخُذُهُمْ وَهُمْ يَخِصِّمُونَ", indo: "Mereka tidak menunggu melainkan satu teriakan saja yang akan membinasakan mereka ketika mereka sedang bertengkar." },
+    { arab: "فَلَا يَسْتَطِيعُونَ تَوْصِيَةًۭ وَلَا إِلَىٰ أَهْلِهِمْ يَرْجِعُونَ", indo: "Maka mereka tidak dapat memberikan wasiat dan tidak pula dapat kembali kepada keluarga mereka." },
+    { arab: "وَتَنفَخُ فِى ٱلصُّورِ فَإِذَا هُمْ مِّنَ ٱلْأَجْدَاثِ إِلَىٰ رَبِّهِمْ يَنسِلُونَ", indo: "Dan akan ditiuplah sangkakala, maka tiba-tiba mereka dari kubur-kubur mereka berlari menuju Tuhan mereka." },
+    { arab: "قَالُوا۟ يَـٰوَيْلَنَا مَنۢ بَعَثَنَا مِن مَّرْقَدِنَا ۜ ۗ هَـٰذَا مَا وَعَدَ ٱلرَّحْمَـٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ", indo: "Mereka berkata, 'Aduh, celakalah kami! Siapa yang membangkitkan kami dari tempat tidur kami ini? Inilah yang dijanjikan oleh Allah dan para rasul.'" },
+    { arab: "إِن كَانَتْ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ فَإِذَا هُمْ جَمِيعٌۭ لَّدَيْنَا مُحْضَرُونَ", indo: "Tidak ada (yang membangkitkan) melainkan satu teriakan saja, maka seketika itu mereka semua dihadapkan kepada Kami." },
+    { arab: "فَٱلْيَوْمَ لَا تُظْلَمُ نَفْسٌۭ شَيْئًۭا وَلَا تُجْزَوْنَ إِلَّا مَا كُنتُمْ تَعْمَلُونَ", indo: "Maka pada hari ini tidak ada seorang pun yang dizalimi sedikit pun dan kamu tidak diberi balasan melainkan dengan apa yang telah kamu kerjakan." },
+    { arab: "إِنَّ أَصْحَـٰبَ ٱلْجَنَّةِ ٱلْيَوْمَ فِى شُغُلٍۭ فَـٰكِهُونَ", indo: "Sesungguhnya penghuni surga pada hari itu berada dalam kesibukan yang senang." },
+    { arab: "هُمْ وَأَزْوَٰجُهُمْ فِى ظِلَـٰلٍۢ عَلَى ٱلْأَرَائِكِ مُتَّكِئُونَ", indo: "Mereka dan pasangan-pasangan mereka berada dalam naungan (yang teduh) di atas dipan-dipan yang teratur." },
+    { arab: "لَهُمْ فِيهَا فَـٰكِهَةٌۭ وَلَهُمْ مَّا يَدْعُونَ", indo: "Bagi mereka di dalamnya ada buah-buahan dan bagi mereka apa saja yang mereka minta." },
+    { arab: "سَلَامٌ قَوْلًۭا مِّن رَّبٍّ رَّحِيمٍ", indo: "Salam (yang diucapkan) dari Tuhan yang Maha Penyayang." },
+    { arab: "وَٱمْتَازُوا۟ ٱلْيَوْمَ أَيُّهَا ٱلْمُجْرِمُونَ", indo: "Dan (akan dikatakan), 'Berpisahlah kamu pada hari ini, hai orang-orang yang berdosa!'" },
+    { arab: "أَلَمْ أَعْهَدْ إِلَيْكُمْ يَـٰبَنِىٓ ءَادَمَ أَلَّا تَعْبُدُوا۟ ٱلشَّيْطَـٰنَ ۖ إِنَّهُۥ لَكُمْ عَدُوٌّۭ مُّبِينٌ", indo: "Bukankah Aku telah memerintahkan kepadamu, hai anak-anak Adam, agar kamu tidak menyembah syaitan? Sungguh, ia adalah musuh yang nyata bagimu." },
+    { arab: "وَأَنِ اعْبُدُونِۖ هَـٰذَا صِرَٰطٌۭ مُّسْتَقِيمٌ", indo: "Dan sembahlah Aku. Inilah jalan yang lurus." },
+    { arab: "وَلَقَدْ أَضَلَّ مِنكُمْ جِبِلًّۭا كَثِيرًۭا ۚ أَلَمْ تَكُونُوا۟ تَعْقِلُونَ", indo: "Dan sesungguhnya dia telah menyesatkan sebagian besar dari kamu. Tidakkah kamu mengerti?" },
+    { arab: "هَـٰذِهِۦ جَهَنَّمُ ٱلَّتِى كُنتُمْ تُوْعَدُونَ", indo: "Inilah neraka Jahannam yang dahulu kamu dijanjikan." },
+    { arab: "ٱدْخُلُوهَا ٱلْيَوْمَ بِمَا كُنتُمْ تَكْفُرُونَ", indo: "Masuklah ke dalamnya pada hari ini karena kamu selalu mengingkari." },
+    { arab: "ٱلْيَوْمَ نَخْتِمُ عَلَىٓ أَفْوَاهِهِمْ وَتُكَلِّمُنَآ أَيْدِيهِمْ وَتَشْهَدُ أَرْجُلُهُمْ بِمَا كَانُوا۟ يَكْسِبُونَ", indo: "Pada hari ini Kami tutup mulut mereka, dan tangan mereka akan berbicara kepada Kami, dan kaki mereka akan menjadi saksi terhadap apa yang mereka perbuat." },
+    { arab: "وَلَوْ نَشَاءُ لَطَمَسْنَا عَلَىٰ أَعْيُنِهِمْ فَٱسْتَبَقُوا۟ ٱلصِّرَٰطَ فَأَنَّىٰ يُبْصِرُونَ", indo: "Dan seandainya Kami menghendaki, pasti Kami akan menghapuskan penglihatan mereka, lalu mereka berlomba-lomba untuk mencari jalan, maka bagaimana mereka bisa melihat?" },
+    { arab: "وَلَوْ نَشَاءُ لَمَسَخْنَـٰهُمْ عَلَىٰ مَكَانَتِهِمْ فَمَا ٱسْتَطَاعُوا۟ مُضِيًّۭا وَلَا يَرْجِعُونَ", indo: "Dan seandainya Kami menghendaki, pasti Kami akan menjadikan mereka cacat di tempat mereka berdiri, maka mereka tidak mampu melanjutkan (perjalanan) dan tidak dapat kembali." },
+    { arab: "وَمَن نُّعَمِّرْهُ نُنَكِّسْهُ فِى ٱلْخَلْقِ ۖ أَفَلَا يَعْقِلُونَ", indo: "Dan barangsiapa yang Kami panjangkan umurnya, Kami akan kembalikan dia ke keadaan yang lebih rendah. Apakah mereka tidak memahami?" },
+    { arab: "وَمَا عَلَّمْنَـٰهُ شِعْرًۭا وَمَا يَنبَغِى لَهُۥٓ إِنْ هُوَ إِلَّا ذِكْرٌۭ وَقُرْءَانٌۭ مُّبِينٌ", indo: "Dan Kami tidak mengajarkan kepadanya puisi dan tidak pantas baginya. Ini tidak lain hanyalah pelajaran dan Al-Qur'an yang jelas." },
+    { arab: "لِّيُنذِرَ مَن كَانَ حَيًّۭا وَيَحِقَّ ٱلْقَوْلُ عَلَى ٱلْكَافِرِينَ", indo: "Agar dia memberi peringatan kepada orang yang hidup dan agar sudah pasti berlaku atas orang-orang yang kafir." },
+    { arab: "أَوَلَمْ يَرَوْا۟ أَنَّا خَلَقْنَـٰهُمْ مِّمَّا عَمِلَتْ أَيْدِينَآ فَهُمْ لَهَا مَالِكُونَ", indo: "Tidakkah mereka melihat bahwa Kami menciptakan mereka dari apa yang diciptakan oleh tangan Kami, lalu mereka menjadi milik Kami?" },
+    { arab: "وَجَعَلْنَا لَهُمْ مِنْهَا مَا يَرْكَبُونَ", indo: "Dan Kami jadikan untuk mereka perahu dari benda itu, yang dapat mereka kendarai." },
+    { arab: "فَإِن نَّشَأْ نُغْرِقْهُمْ فَلَا صَرِيخَ لَهُمْ وَلَا هُمْ يُنقَذُونَ", indo: "Jika Kami menghendaki, Kami akan tenggelamkan mereka, maka tidak ada penolong bagi mereka dan tidak (pula) dapat diselamatkan." },
+    { arab: "إِلَّا رَحْمَةًۭ مِّنَّا وَمَتَـٰعًا إِلَىٰ حِينٍۢ", indo: "Tetapi (Kami selamatkan mereka) karena rahmat yang besar dari Kami dan untuk memberikan kesenangan hidup sampai waktu tertentu." },
+    { arab: "وَإِذَا قِيلَ لَهُمُ ٱتَّقُوا۟ مَا بَيْنَ أَيْدِيكُمْ وَمَا خَلْفَكُمْ لَعَلَّكُمْ تُرْحَمُونَ", indo: "Dan apabila dikatakan kepada mereka, 'Takutlah kamu akan siksa yang di hadapanmu dan siksa yang akan datang agar kamu mendapat rahmat,' (niscaya mereka berpaling)." },
+    { arab: "وَمَا تَأْتِيهِم مِّنْ ءَايَةٍۢ مِّنْ ءَايَـٰتِ رَبِّهِمْ إِلَّا كَانُوا۟ عَنْهَا مُعْرِضِينَ", indo: "Dan tidak ada satu ayat dari ayat-ayat Tuhan mereka yang sampai kepada mereka, melainkan mereka selalu berpaling daripadanya." },
+    { arab: "وَإِذَا قِيلَ لَهُمْ أَنفِقُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ قَالَ ٱلَّذِينَ كَفَرُوا۟ لِلَّذِينَ ءَامَنُوٓا۟ أَنُطْعِمُ مَن لَّوْ يَشَآءُ ٱللَّهُ أَطْعَمَهُۥٓ إِنْ أَنتُمْ إِلَّا فِى ضَلَـٰلٍۢ مُّبِينٍۢ", indo: "Dan apabila dikatakan kepada mereka, 'Infakkanlah sebagian dari rezeki yang diberikan Allah kepadamu,' maka orang-orang yang kafir itu berkata kepada orang-orang yang beriman, 'Apakah kami akan memberi makan kepada orang yang jika Allah menghendaki (tentu) Dia akan memberinya makan? Kamu benar-benar dalam kesesatan yang nyata.'" },
+    { arab: "وَيَقُولُونَ مَتَىٰ هَـٰذَا ٱلْوَعْدُ إِن كُنتُمْ صَـٰدِقِينَ", indo: "Dan mereka berkata, 'Kapankah janji itu (akan datang) jika kamu adalah orang-orang yang benar?'" },
+    { arab: "مَا يَنظُرُونَ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ تَأْخُذُهُمْ وَهُمْ يَخِصِّمُونَ", indo: "Mereka tidak menunggu melainkan satu teriakan saja yang akan membinasakan mereka ketika mereka sedang bertengkar." },
+    { arab: "فَلَا يَسْتَطِيعُونَ تَوْصِيَةًۭ وَلَا إِلَىٰ أَهْلِهِمْ يَرْجِعُونَ", indo: "Maka mereka tidak dapat memberikan wasiat dan tidak pula dapat kembali kepada keluarga mereka." },
+    { arab: "وَتَنفَخُ فِى ٱلصُّورِ فَإِذَا هُمْ مِّنَ ٱلْأَجْدَاثِ إِلَىٰ رَبِّهِمْ يَنسِلُونَ", indo: "Dan akan ditiuplah sangkakala, maka tiba-tiba mereka dari kubur-kubur mereka berlari menuju Tuhan mereka." },
+    { arab: "يَا وَيْلَنَا مَن بَعَثَنَا مِن مَّرْقَدِنَاۖ هَـٰذَا مَا وَعَدَ ٱلرَّحْمَـٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ", indo: "Mereka berkata, 'Aduh, celakalah kami! Siapa yang membangkitkan kami dari tempat tidur kami ini? Inilah yang dijanjikan oleh Allah dan para rasul.'" },
+    { arab: "إِن كَانَتْ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ فَإِذَا هُمْ جَمِيعٌۭ لَّدَيْنَا مُحْضَرُونَ", indo: "Tidak ada (yang membangkitkan) melainkan satu teriakan saja, maka seketika itu mereka semua dihadapkan kepada Kami." },
+    { arab: "فَٱلْيَوْمَ لَا تُظْلَمُ نَفْسٌۭ شَيْئًۭا وَلَا تُجْزَوْنَ إِلَّا مَا كُنتُمْ تَعْمَلُونَ", indo: "Maka pada hari ini tidak ada seorang pun yang dizalimi sedikit pun dan kamu tidak diberi balasan melainkan dengan apa yang telah kamu kerjakan." },
+    { arab: "إِنَّ أَصْحَـٰبَ ٱلْجَنَّةِ ٱلْيَوْمَ فِى شُغُلٍۭ فَـٰكِهُونَ", indo: "Sesungguhnya penghuni surga pada hari itu berada dalam kesibukan yang senang." },
+    { arab: "هُمْ وَأَزْوَٰجُهُمْ فِى ظِلَـٰلٍۢ عَلَى ٱلْأَرَائِكِ مُتَّكِئُونَ", indo: "Mereka dan pasangan-pasangan mereka berada dalam naungan (yang teduh) di atas dipan-dipan yang teratur." },
+    { arab: "لَهُمْ فِيهَا فَـٰكِهَةٌۭ وَلَهُمْ مَّا يَدْعُونَ", indo: "Bagi mereka di dalamnya ada buah-buahan dan bagi mereka apa saja yang mereka minta." },
+    { arab: "سَلَامٌ قَوْلًۭا مِّن رَّبٍّ رَّحِيمٍ", indo: "Salam (yang diucapkan) dari Tuhan yang Maha Penyayang." },
+    { arab: "وَٱمْتَازُوا۟ ٱلْيَوْمَ أَيُّهَا ٱلْمُجْرِمُونَ", indo: "Dan (akan dikatakan), 'Berpisahlah kamu pada hari ini, hai orang-orang yang berdosa!'" },
+    { arab: "أَلَمْ أَعْهَدْ إِلَيْكُمْ يَـٰبَنِىٓ ءَادَمَ أَلَّا تَعْبُدُوا۟ ٱلشَّيْطَـٰنَ ۖ إِنَّهُۥ لَكُمْ عَدُوٌّۭ مُّبِينٌ", indo: "Bukankah Aku telah memerintahkan kepadamu, hai anak-anak Adam, agar kamu tidak menyembah syaitan? Sungguh, ia adalah musuh yang nyata bagimu." },
+    { arab: "وَأَنِ اعْبُدُونِۖ هَـٰذَا صِرَٰطٌۭ مُّسْتَقِيمٌ", indo: "Dan sembahlah Aku. Inilah jalan yang lurus." },
+    { 
+            arab: "وَلَقَدْ أَضَلَّ مِنكُمْ جِبِلًّۭا كَثِيرًا ۖ أَفَلَمْ تَكُونُوا۟ تَعْقِلُونَ", 
+            indo: "Padahal dia telah menyesatkan banyak orang di antara kamu. Apakah kamu tidak punya akal sehat?," 
+    },
+    { 
+            arab: "هَـٰذِهِۦ جَهَنَّمُ ٱلَّتِى كُنتُمْ تُوعَدُونَ",
+            indo: "Inilah Neraka yang telah diperingatkan kepadamu," 
+        },
+        { 
+            arab: "ٱصْلَوْهَا ٱلْيَوْمَ بِمَا كُنتُمْ تَكْفُرُونَ", 
+            indo: "Bakarlah hari ini karena ketidakpercayaanmu," 
+        },
+        { 
+            arab:" ٱلْيَوْمَ نَخْتِمُ عَلَىٰٓ أَفْوَٰهِهِمْ وَتُكَلِّمُنَآ أَيْدِيهِمْ وَتَشْهَدُ أَرْجُلُهُم بِمَا كَانُوا۟ يَكْسِبُونَ ",
+            indo: "Pada hari ini Kami tutup mulut mereka, dan berkatalah kepada Kami tangan mereka dan menjadi saksi kaki mereka terhadap apa yang telah mereka kerjakan.," 
+        },
+        { 
+            arab:"وَلَوْ نَشَآءُ لَطَمَسْنَا عَلَىٰٓ أَعْيُنِهِمْ فَٱسْتَبَقُوا۟ ٱلصِّرَٰطَ فَأَنَّىٰ يُبْصِرُونَ", 
+            indo: "Kalaulah Kami menghendaki, Kami dapat dengan mudah membutakan mata mereka, sehingga mereka kesulitan mencari jalan. Lalu bagaimana mereka dapat melihat?," 
+        },
+        { 
+            arab:"وَلَوْ نَشَآءُ لَمَسَخْنَـٰهُمْ عَلَىٰ مَكَانَتِهِمْ فَمَا ٱسْتَطَـٰعُوا۟ مُضِيًّۭا وَلَا يَرْجِعُونَ", 
+            indo: "Dan kalaulah Kami menghendaki, tentulah Kami ubah mereka seketika itu juga ,  sehingga mereka tidak dapat maju dan tidak pula dapat mundur," 
+        },
+        { 
+            arab: "وَمَن نُّعَمِّرْهُ نُنَكِّسْهُ فِى ٱلْخَلْقِ ۖ أَفَلَا يَعْقِلُونَ", 
+            indo: "Dan barangsiapa yang Kami panjangkan umurnya, niscaya Kami kembalikan perkembangannya. 1  Maka apakah mereka tidak mengerti?," 
+        },
+        { 
+            arab: "وَمَا عَلَّمْنَـٰهُ ٱلشِّعْرَ وَمَا يَنۢبَغِى لَهُۥٓ ۚ إِنْ هُوَ إِلَّا ذِكْرٌۭ وَقُرْءَانٌۭ مُّبِينٌۭ", 
+            indo: "Kami tidak mengajarkannya syair dan syair itu tidak pantas baginya. Kitab ini hanyalah peringatan dan Al-Quran yang nyata." 
+        },
+        { 
+            arab: "لِّيُنذِرَ مَن كَانَ حَيًّۭا وَيَحِقَّ ٱلْقَوْلُ عَلَى ٱلْكَـٰفِرِينَ", 
+            indo: "untuk memberi peringatan kepada siapa saja yang 'benar-benar' hidup dan untuk memenuhi ketetapan 'azab' terhadap orang-orang kafir." 
+        },
+        { 
+            arab: "أَوَلَمْ يَرَوْا۟ أَنَّا خَلَقْنَا لَهُم مِّمَّا عَمِلَتْ أَيْدِينَآ أَنْعَـٰمًۭا فَهُمْ لَهَا مَـٰلِكُونَ", 
+            indo: "Dan apakah mereka tidak memperhatikan bahwa sesungguhnya Kami telah  menciptakan untuk mereka di samping binatang-binatang ternak, di bawah kekuasaan mereka?," 
+        },
+        { 
+            arab: "وَذَلَّلْنَـٰهَا لَهُمْ فَمِنْهَا رَكُوبُهُمْ وَمِنْهَا يَأْكُلُونَ", 
+            indo: "Dan Kami tundukkan binatang-binatang itu bagi mereka, maka sebagian binatang itu dapat mereka tunggangi dan sebagian yang lain dapat mereka makan," 
+        },
+        { 
+            arab: "وَلَهُمْ فِيهَا مَنَـٰفِعُ وَمَشَارِبُ ۖ أَفَلَا يَشْكُرُونَ", 
+            indo: "Dan mereka memperoleh darinya berbagai manfaat dan minuman. Maka mengapa mereka tidak bersyukur?" 
+        },
+        { 
+            arab: "وَٱتَّخَذُوا۟ مِن دُونِ ٱللَّهِ ءَالِهَةًۭ لَّعَلَّهُمْ يُنصَرُونَ", 
+            indo: "Bahkan mereka mengambil tuhan-tuhan lain selain Allah, dengan harapan akan mendapat pertolongan dari tuhan-tuhan itu." 
+        },
+        { 
+            arab: "لَا يَسْتَطِيعُونَ نَصْرَهُمْ وَهُمْ لَهُمْ جُندٌۭ مُّحْضَرُونَ", 
+            indo: "Mereka tidak dapat menolong orang-orang kafir, meskipun mereka melayani berhala sebagai penjaga yang berdedikasi. 1" 
+        },
+        { 
+            arab: "فَلَا يَحْزُنكَ قَوْلُهُمْ ۘ إِنَّا نَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ", 
+            indo: "Maka janganlah engkau bersedih hati karena ucapan mereka, wahai Nabi. Sesungguhnya Kami mengetahui apa yang mereka rahasiakan dan apa yang mereka nyatakan." 
+        },
+        { 
+            arab: "وَضَرَبَ لَنَا مَثَلًۭا وَنَسِىَ خَلْقَهُۥ ۖ قَالَ مَن يُحْىِ ٱلْعِظَـٰمَ وَهِىَ رَمِيمٌۭ", 
+            indo: "Dan mereka membantah Kami, sambil melupakan bahwa mereka diciptakan, dengan berkata: Siapakah yang dapat menghidupkan tulang belulang yang telah hancur?"
+        },
+        { 
+            arab: "قُلْ يُحْيِيهَا ٱلَّذِىٓ أَنشَأَهَآ أَوَّلَ مَرَّةٍۢ ۖ وَهُوَ بِكُلِّ خَلْقٍ عَلِيمٌ", 
+            indo: "Katakanlah: Hai Nabi, mereka akan dihidupkan kembali oleh Allah yang telah menciptakan mereka pertama kali. Dan Dia Maha Mengetahui segala sesuatu yang diciptakan." 
+        },
+        { 
+            arab: "ٱلَّذِى جَعَلَ لَكُم مِّنَ ٱلشَّجَرِ ٱلْأَخْضَرِ نَارًۭا فَإِذَآ أَنتُم مِّنْهُ تُوقِدُونَ ٨٠", 
+            indo: "Dialah yang memberikan api kepadamu dari kayu-kayu yang hijau, maka lihatlah, kamu menyalakan api dari kayu-kayu itu" 
+        },
+        { 
+            arab: "أَوَلَيْسَ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ بِقَـٰدِرٍ عَلَىٰٓ أَن يَخْلُقَ مِثْلَهُم ۚ بَلَىٰ وَهُوَ ٱلْخَلَّـٰقُ ٱلْعَلِيمُ", 
+            indo: "Apakah Dia yang menciptakan langit dan bumi tidak dapat dengan mudah menghidupkan kembali orang-orang yang ingkar itu? Ya, Dia tidak bisa! Karena Dia adalah Maha Pencipta, Maha Mengetahui." 
+        },
+        { 
+            arab: "إِنَّمَآ أَمْرُهُۥٓ إِذَآ أَرَادَ شَيْـًٔا أَن يَقُولَ لَهُۥ كُن فَيَكُونُ", 
+            indo: "Yang perlu dilakukan, ketika Dia menghendaki sesuatu ˹untuk terjadi˺, hanyalah mengatakan kepadanya: “Jadilah!” Maka jadilah ia!" 
+        },
+        { 
+            arab: "فَسُبْحَـٰنَ ٱلَّذِى بِيَدِهِۦ مَلَكُوتُ كُلِّ شَىْءٍۢ وَإِلَيْهِ تُرْجَعُونَ", 
+            indo: "Maka Maha Suci Dzat yang di Tangan-Nya lah kekuasaan atas segala sesuatu, dan hanya kepada-Nya lah kamu sekalian dikembalikan." 
+        },
+        
+        // Tambahkan ayat-ayat lain di sini
+    ];
+    
+    let currentAyat = 0;
+
+    function nextAyat() {
+        currentAyat++;
+        if (currentAyat >= ayatList.length) {
+            currentAyat = 0; // Mulai lagi dari ayat pertama jika sudah di akhir
+        }
+        document.getElementById("ayat").innerText = ayatList[currentAyat].arab;
+        document.getElementById("terjemahan").innerText = ayatList[currentAyat].indo;
+    }
+</script>
+
+</body>
+</html>
